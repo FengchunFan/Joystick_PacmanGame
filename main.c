@@ -6,7 +6,8 @@
  *
  *      I acknowledge all content contained herein, excluding template or example
  *      code, is my own original work.
- *      Demo: 
+ *      Demo: https://www.youtube.com/watch?v=XgfSjpKShss (Complexity 1: Motion Sensor)
+            : https://www.youtube.com/watch?v=_ntX2DG7sG8 (General)
  */
 
 #include <avr/io.h>
