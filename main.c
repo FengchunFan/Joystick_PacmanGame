@@ -40,7 +40,7 @@ switch(state){
         case Release:
                 break;
         default:
-                state = LCD_Start;
+                state = Start;
                 break;
 
 }
@@ -66,7 +66,7 @@ int main(void){
     DDRD = 0xFF; PORTD = 0x00;
 
     LCD_init();
-    LCD_DisplayString(1, "Welcome to the Pacman")
+    LCD_DisplayString(1, "Welcome to the Pacman");
             
     static task task1;
     task *tasks[] = { &task1 };
