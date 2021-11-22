@@ -25,7 +25,7 @@ enum States {Start, Init, Game, Release};
 int Tick(int state){
 switch(state){
         case Start:
-                state = LCD_Init;
+                state = Init;
                 break;
         case Init:
                 if((~PINA & 0x01) == 0x01){
@@ -68,8 +68,8 @@ int main(void){
     LCD_init();
     LCD_DisplayString(1, "Welcome to the Pacman")
             
-    static task task1, task2;
-    task *tasks[] = { &task1};
+    static task task1;
+    task *tasks[] = { &task1 };
     const unsigned short numTasks = sizeof(tasks) / sizeof(task*);
     const char start = -1;
 
