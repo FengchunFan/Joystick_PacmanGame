@@ -20,7 +20,6 @@
 
 enum States {Start, Init, Game, Release};
 
-//unsigned char game[] = "Game Start";
 
 int Tick(int state){
 switch(state){
@@ -28,27 +27,41 @@ switch(state){
                 state = Init;
                 break;
         case Init:
-                if((~PINA & 0x01) == 0x01){
+                if((~PINA & 0x03) == 0x01){
                         state = Game;
+                }else if((~PINA & 0x03) == 0x02){
+                        state = Release;
                 }else{
                         state = Init;
                 }
                 break;
         case Game:
-                LCD_DisplayString(1, "Game Start");
+                LCD_DisplayString(1, "Game Start            ");
+                if((~PINA & 0x03) == 0x02){
+                        state = Release;
+                }else{
+                        state = Game;
+                }
                 break;
         case Release:
+                LCD_DisplayString(1, "Game Reset?           ");
+                if((~PINA & 0x03) == 0x02){
+                        state = Game;
+                }else{
+                        state = Release;
+                }
                 break;
         default:
                 state = Start;
                 break;
-
 }
 
   switch(state){
         case Start:
                 break;
         case Init:
+                break;
+        case Game:
                 break;
         case Release:
                 break;
@@ -66,19 +79,19 @@ int main(void){
     DDRD = 0xFF; PORTD = 0x00;
 
     LCD_init();
-    LCD_DisplayString(1, "Welcome to the Pacman");
-            
+    LCD_DisplayString(1, "Welcome to the  PACMAN");
+
     static task task1;
     task *tasks[] = { &task1 };
     const unsigned short numTasks = sizeof(tasks) / sizeof(task*);
     const char start = -1;
 
     task1.state = start;
-    task1.period = 1;
+    task1.period = 50;
     task1.elapsedTime = task1.period;
     task1.TickFct = Tick;
 
-    TimerSet(1);
+    TimerSet(50);
     TimerOn();
 
     unsigned short i;
@@ -88,9 +101,9 @@ int main(void){
                         tasks[i]->state = tasks[i]->TickFct(tasks[i]->state);
                         tasks[i]->elapsedTime = 0;
                 }
-                tasks[i]->elapsedTime += 1;
+                tasks[i]->elapsedTime += 50;
         }
-      
+
         while(!TimerFlag);
         TimerFlag = 0;
     }
