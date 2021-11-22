@@ -18,11 +18,9 @@
 #include "simAVRHeader.h"
 #endif
 
-enum States {Start, Init, Release};
+enum States {Start, Init, Game, Release};
 
-unsigned char game[] = "Welcome to the PACMAN";
-unsigned char lose[] = "you lost heheheh";
-unsigned char j = 0; //scroll the game message
+//unsigned char game[] = "Game Start";
 
 int Tick(int state){
 switch(state){
@@ -31,19 +29,15 @@ switch(state){
                 break;
         case Init:
                 if((~PINA & 0x01) == 0x01){
-                        state = LCD_Pause;
-                }else if(game[i + j] == '#'){
-                        state = LCD_Lose;
+                        state = Game;
                 }else{
-                        state = LCD_Init;
+                        state = Init;
                 }
                 break;
+        case Game:
+                LCD_DisplayString(1, "Game Start");
+                break;
         case Release:
-                if((~PINA & 0x01) == 0x00){
-                        state = LCD_Init;
-                }else{
-                        state = LCD_Release;
-                }
                 break;
         default:
                 state = LCD_Start;
@@ -55,30 +49,11 @@ switch(state){
         case Start:
                 break;
         case Init:
-                LCD_Cursor(i);
-                for(int a = 1; a <= 32; ++a){ //evil #
-                        LCD_Cursor(a);
-                        LCD_WriteData(game[(a+j)%32]);
-                }
-
-                if(j == 32){
-                        j = 0;
-                }else{
-                        j++;
-                }
-                break;
-        case Pause:
-                break;
-        case Lose:
-                LCD_DisplayString(1,lose);
-                i = 1;
-                j = 0;
                 break;
         case Release:
                 break;
         default:
                 break;
-
 }
 
 return state;
@@ -91,7 +66,8 @@ int main(void){
     DDRD = 0xFF; PORTD = 0x00;
 
     LCD_init();
-
+    LCD_DisplayString(1, "Welcome to the Pacman")
+            
     static task task1, task2;
     task *tasks[] = { &task1};
     const unsigned short numTasks = sizeof(tasks) / sizeof(task*);
