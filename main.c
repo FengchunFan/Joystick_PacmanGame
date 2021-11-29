@@ -17,6 +17,8 @@
 #include <scheduler.h>
 #ifdef _SIMULATE_
 #include "simAVRHeader.h"
+#include <util/delay.h>
+#include "nokia5110.h"
 #endif
 
 enum States {Start, Init, Game, Release};
