@@ -257,12 +257,19 @@ int Cursor_Tick(int state) {
                                 break;
                                     
                         case C_CHECK:
-                                if (pos == 0x00) { state = C_CHECK; }
-                                else if (pos == 0x01) { state = C_UP; }
-                                else if (pos == 0x02) { state = C_DOWN; }
-                                else if (pos == 0x04) { state = C_LEFT; }
-                                else if (pos == 0x08) { state = C_RIGHT; }
-                                else { state = C_CHECK; }
+                                if (pos == 0x00) { 
+                                            state = C_CHECK; 
+                                } else if (pos == 0x01) { 
+                                            state = C_UP; 
+                                } else if (pos == 0x02) { 
+                                            state = C_DOWN; 
+                                } else if (pos == 0x04) { 
+                                            state = C_LEFT; 
+                                } else if (pos == 0x08) { 
+                                            state = C_RIGHT; 
+                                } else { 
+                                            state = C_CHECK; 
+                                }
                                 break;
                                     
                         case C_UP:
