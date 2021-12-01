@@ -19,6 +19,7 @@
 #include "simAVRHeader.h"
 #include <util/delay.h>
 #include "nokia5110.h"
+#include "pwm.h"
 #endif
 
 void ADC_init() {
