@@ -364,6 +364,14 @@ int Nokia_TICK(int state){
                case NOKIA_WAIT:
                            break;
                case NOKIA_START:
+                           nokia_lcd_clear();
+                           nokia_lcd_set_cursor(21, 1);
+                           nokia_lcd_write_string("THE PACMAN", 2);
+    
+                           nokia_lcd_set_cursor(0, 21);
+                           nokia_lcd_write_string("Press Start Button to play", 1);
+    
+                           nokia_lcd_render();
                            break;
                default:
                            break;
@@ -405,7 +413,7 @@ int main(void){
      
     task4.state = NOKIA_START;
     task4.period = 10;
-    task4.elapsedTime = task3.period;
+    task4.elapsedTime = task4.period;
     task4.TickFct = &Nokia_Tick;           
     
     TimerSet(10);
