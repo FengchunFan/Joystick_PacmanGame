@@ -244,6 +244,101 @@ int JS_Tick(int state) {
     return state;
 }
 
+enum Cursor_States {C_START, C_CHECK, C_UP, C_DOWN, C_LEFT, C_RIGHT, C_RELEASE};
+
+int Cursor_Tick(int state) {
+            switch(state){
+                        case C_START:
+                                if((~PINA & 0xC0) == 0x40){
+                                    state = C_CHECK;           
+                                }else{
+                                    state = C_START;
+                                }
+                                break;
+                                    
+                        case C_CHECK:
+                                if (pos == 0x00) { state = C_CHECK; }
+                                else if (pos == 0x01) { state = C_UP; }
+                                else if (pos == 0x02) { state = C_DOWN; }
+                                else if (pos == 0x04) { state = C_LEFT; }
+                                else if (pos == 0x08) { state = C_RIGHT; }
+                                else { state = C_CHECK; }
+                                break;
+                                    
+                        case C_UP:
+                                if (pos != 0x00){
+                                    state = C_RELEASE;
+                                }else{
+                                    state = C_CHECK;
+                                }
+                                break;
+                        
+                        case C_DOWN:
+                                if (pos != 0x00){
+                                    state = C_RELEASE;
+                                }else{
+                                    state = C_CHECK;
+                                }
+                                break;
+                                
+                        case C_LEFT:
+                                if (pos != 0x00){
+                                    state = C_RELEASE;
+                                }else{
+                                    state = C_CHECK;
+                                }
+                                break;
+                                 
+                        case C_RIGHT:
+                                if (pos != 0x00){
+                                    state = C_RELEASE;
+                                }else{
+                                    state = C_CHECK;
+                                }
+                                break;
+                                    
+                        case C_RELEASE:
+                                if (pos == 0x00){
+                                    state = C_CHECK;
+                                }else{
+                                    state = C_RELEASE;
+                                }
+                                break;
+                                 
+                        default:
+                                state = C_START;
+                                break;
+            }
+            
+            switch(state){
+                        //update cursor information
+                        case C_START:
+                                break;
+                                    
+                        case C_CHECK:
+                                break;
+                                    
+                        case C_UP:
+                                break;
+                                    
+                        case C_DOWN:
+                                break;
+                                    
+                        case C_RELEASE:
+                                break;
+                                    
+                        case C_LEFT:
+                                break;
+                                    
+                        case C_RIGHT:
+                                break;
+                                    
+                        default:
+                                break;
+            }
+   return state;
+}
+
 int main(void){
     DDRA = 0x00; PORTA = 0xFF;
     DDRB = 0xFF; PORTB = 0x00;
@@ -256,21 +351,26 @@ int main(void){
     LCD_DisplayString(1, "Welcome to the  PACMAN");
 
     static task task1;
-    task *tasks[] = { &task1 };
+    task *tasks[] = { &task1, &task2, &task3};
     const unsigned short numTasks = sizeof(tasks) / sizeof(task*);
     const char start = -1;
 
     task1.state = start;
-    task1.period = 50;
+    task1.period = 10;
     task1.elapsedTime = task1.period;
     task1.TickFct = &Tick;
 
     task2.state = JS_START;
-    task2.period = 50;
+    task2.period = 10;
     task2.elapsedTime = task2.period;
     task2.TickFct = &JS_Tick;
             
-    TimerSet(50);
+    task3.state = C_START;
+    task3.period = 10;
+    task3.elapsedTime = task3.period;
+    task3.TickFct = &Cursor_Tick;       
+     
+    TimerSet(10);
     TimerOn();
 
     unsigned short i;
@@ -280,7 +380,7 @@ int main(void){
                         tasks[i]->state = tasks[i]->TickFct(tasks[i]->state);
                         tasks[i]->elapsedTime = 0;
                 }
-                tasks[i]->elapsedTime += 50;
+                tasks[i]->elapsedTime += 10;
         }
 
         while(!TimerFlag);
