@@ -249,7 +249,9 @@ int main(void){
     DDRB = 0xFF; PORTB = 0x00;
     DDRC = 0xFF; PORTC = 0x00;
     DDRD = 0xFF; PORTD = 0x00;
-
+    
+    ADC_init();
+    nokia_lcd_init();
     LCD_init();
     LCD_DisplayString(1, "Welcome to the  PACMAN");
 
@@ -263,10 +265,11 @@ int main(void){
     task1.elapsedTime = task1.period;
     task1.TickFct = &Tick;
 
-    task2.state = start;
+    task2.state = JS_START;
     task2.period = 50;
     task2.elapsedTime = task2.period;
     task2.TickFct = &JS_Tick;
+            
     TimerSet(50);
     TimerOn();
 
