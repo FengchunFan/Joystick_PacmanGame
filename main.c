@@ -346,6 +346,32 @@ int Cursor_Tick(int state) {
    return state;
 }
 
+enum NOKIA_States{NOKIA_WAIT, NOKIA_START};
+int Nokia_TICK(int state){
+   switch(state){
+               case NOKIA_WAIT:
+                           state = NOKIA_START;
+                           break;
+               case NOKIA_START:
+                           state = NOKIA_START;
+                           break;
+               default:
+                           state = NOKIA_WAIT;
+                           break;
+   }
+            
+   switch(state){
+               case NOKIA_WAIT:
+                           break;
+               case NOKIA_START:
+                           break;
+               default:
+                           break;
+   }
+            
+   return state;
+}
+
 int main(void){
     DDRA = 0x00; PORTA = 0xFF;
     DDRB = 0xFF; PORTB = 0x00;
@@ -358,7 +384,7 @@ int main(void){
     LCD_DisplayString(1, "Welcome to the  PACMAN");
 
     static task task1;
-    task *tasks[] = { &task1, &task2, &task3};
+    task *tasks[] = { &task1, &task2, &task3, &task4};
     const unsigned short numTasks = sizeof(tasks) / sizeof(task*);
     const char start = -1;
 
@@ -377,6 +403,11 @@ int main(void){
     task3.elapsedTime = task3.period;
     task3.TickFct = &Cursor_Tick;       
      
+    task4.state = NOKIA_START;
+    task4.period = 10;
+    task4.elapsedTime = task3.period;
+    task4.TickFct = &Nokia_Tick;           
+    
     TimerSet(10);
     TimerOn();
 
