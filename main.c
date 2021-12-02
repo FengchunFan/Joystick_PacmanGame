@@ -357,15 +357,17 @@ int Nokia_TICK(int state){
    switch(state){
                case NOKIA_WAIT:
                            break;
-               case NOKIA_START:
+           
+               case NOKIA_WAIT:
                            nokia_lcd_clear();
-                           nokia_lcd_set_cursor(21, 1);
-                           nokia_lcd_write_string("THE PACMAN", 2);
-    
+                           nokia_lcd_set_cursor(10, 1);
+                           nokia_lcd_write_string("THE PACMAN", 1);
+
                            nokia_lcd_set_cursor(0, 21);
                            nokia_lcd_write_string("Press Start Button to play", 1);
-    
+
                            nokia_lcd_render();
+
                            break;
                default:
                            break;
