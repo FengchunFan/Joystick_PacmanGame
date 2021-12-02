@@ -57,7 +57,7 @@ switch(state){
         case Release:
                 LCD_DisplayString(1, "Game Reset?           ");
                 if((~PINA & 0xC0) == 0x80){
-                        scores = scores + 1;
+                        scores = 0;
                         state = Game;
                 }else{
                         state = Release;
