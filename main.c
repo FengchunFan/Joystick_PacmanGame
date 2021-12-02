@@ -341,7 +341,7 @@ int Cursor_Tick(int state) {
 }
 
 enum NOKIA_States{NOKIA_WAIT, NOKIA_START};
-int Nokia_TICK(int state){
+int Nokia_Tick(int state){
    switch(state){
                case NOKIA_WAIT:
                            state = NOKIA_START;
@@ -355,7 +355,7 @@ int Nokia_TICK(int state){
    }
             
    switch(state){
-               case NOKIA_WAIT:
+               case NOKIA_START:
                            break;
            
                case NOKIA_WAIT:
