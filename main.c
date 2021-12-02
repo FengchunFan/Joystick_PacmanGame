@@ -156,94 +156,95 @@ unsigned char pos;
 int JS_Tick(int state) {
     unsigned short X;
     unsigned short Y;
-    
+
     X = readADC(0);
     Y = readADC(1);
-    
+
     switch (state) {
-        case JS_START:        
+        case JS_START:
                         state = JS_WAIT;
                         break;
         case JS_WAIT:
-            if (Y >= 800) { 
-                        state = JS_UP; 
-            } else if (Y <= 80) {
-                        state = JS_DOWN; 
-            } else if (X <= 80) { 
-                        state = JS_LEFT; 
-            } else if (X >= 800) { 
-                        state = JS_RIGHT; 
-            } else { 
-                        state = JS_WAIT; 
-            }
-            break;
-            
-        case JS_UP:
             if (Y >= 800) {
-                        state = JS_UP; 
-            } else { 
-                        state = JS_WAIT; 
+                        state = JS_RIGHT;
+            } else if (Y <= 80) {
+                        state = JS_LEFT;
+            } else if (X <= 80) {
+                        state = JS_UP;
+            } else if (X >= 800) {
+                        state = JS_DOWN;
+            } else {
+                        state = JS_WAIT;
             }
             break;
-            
-        case JS_DOWN:
-            if (Y <= 80) { 
-                        state = JS_DOWN; 
-            } else { 
-                        state = JS_WAIT; 
-            }
-            break;
-            
-        case JS_LEFT:
-            if (X <= 80) { 
-                        state = JS_LEFT; 
-            } else { 
-                        state = JS_WAIT; 
-            }
-            break;
-            
+
         case JS_RIGHT:
-            if (X >= 800) { 
-                        state = JS_RIGHT; 
-            } else { 
-                        state = JS_WAIT; 
+            if (Y >= 800) {
+                        state = JS_RIGHT;
+            } else {
+                        state = JS_WAIT;
             }
             break;
-            
+
+        case JS_LEFT:
+            if (Y <= 80) {
+                        state = JS_LEFT;
+            } else {
+                        state = JS_WAIT;
+            }
+            break;
+
+        case JS_UP:
+            if (X <= 80) {
+                        state = JS_UP;
+            } else {
+                        state = JS_WAIT;
+            }
+            break;
+
+        case JS_DOWN:
+            if (X >= 800) {
+                        state = JS_DOWN;
+            } else {
+                        state = JS_WAIT;
+            }
+            break;
+
         default:
             state = JS_START;;
             break;
     }
-    
+            
     switch (state) {
         case JS_START:
             break;
-                            
+
         case JS_WAIT:
             pos = 0x00;
             break;
-            
+
         case JS_UP:
             pos = 0x01;
             break;
-            
+
         case JS_DOWN:
             pos = 0x02;
             break;
-            
+
         case JS_LEFT:
             pos = 0x04;
             break;
-            
+
         case JS_RIGHT:
             pos = 0x08;
             break;
-            
+
         default:
             break;
     }
     return state;
 }
+
 
 enum Cursor_States {C_START, C_CHECK, C_UP, C_DOWN, C_LEFT, C_RIGHT, C_RELEASE};
 
