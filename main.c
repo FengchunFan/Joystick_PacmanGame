@@ -1,15 +1,3 @@
-/*      Author: ffan005
- *  Partner(s) Name: 
- *      Lab Section:
- *      Assignment: Lab #  Exercise #
- *      Exercise Description: [optional - include for your own benefit]
- *
- *      I acknowledge all content contained herein, excluding template or example
- *      code, is my own original work.
- *      Demo: https://www.youtube.com/watch?v=XgfSjpKShss (Complexity 1: Motion Sensor)
-            : https://www.youtube.com/watch?v=_ntX2DG7sG8 (General)
- */
-
 #include <avr/io.h>
 #include "io.h"
 #include <avr/interrupt.h>
@@ -232,11 +220,11 @@ int JS_Tick(int state) {
             break;
 
         case JS_LEFT:
-            pos = 0x04;
+            pos = 0x03;
             break;
 
         case JS_RIGHT:
-            pos = 0x08;
+            pos = 0x04;
             break;
 
         default:
@@ -265,9 +253,9 @@ int Cursor_Tick(int state) {
                                             state = C_UP; 
                                 } else if (pos == 0x02) { 
                                             state = C_DOWN; 
-                                } else if (pos == 0x04) { 
+                                } else if (pos == 0x03) { 
                                             state = C_LEFT; 
-                                } else if (pos == 0x08) { 
+                                } else if (pos == 0x04) { 
                                             state = C_RIGHT; 
                                 } else { 
                                             state = C_CHECK; 
