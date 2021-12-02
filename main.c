@@ -327,18 +327,22 @@ int Cursor_Tick(int state) {
                                 break;
                                     
                         case C_UP:
+                                    LCD_DisplayString(1, "Up");
                                 break;
                                     
                         case C_DOWN:
+                                    LCD_DisplayString(1, "Down");
                                 break;
                                     
                         case C_RELEASE:
                                 break;
                                     
                         case C_LEFT:
+                                    LCD_DisplayString(1, "Left");
                                 break;
                                     
                         case C_RIGHT:
+                                    LCD_DisplayString(1, "Right");
                                 break;
                                     
                         default:
