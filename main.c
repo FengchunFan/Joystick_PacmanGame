@@ -392,7 +392,7 @@ int main(void){
     LCD_init();
     LCD_DisplayString(1, "Welcome to the  PACMAN");
 
-    static task task1;
+    static task task1, task2, task3, task4;
     task *tasks[] = { &task1, &task2, &task3, &task4};
     const unsigned short numTasks = sizeof(tasks) / sizeof(task*);
     const char start = -1;
