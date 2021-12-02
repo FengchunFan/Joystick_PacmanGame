@@ -34,7 +34,6 @@ switch(state){
                 break;
         case Init:
                 if((~PINA & 0xC0) == 0x40){
-                        scores = scores + 1;
                         state = Game;
                 }else if((~PINA & 0xC0) == 0x80){
                         state = Release;
@@ -93,7 +92,6 @@ switch(state){
                 }
 
                 if((~PINA & 0xC0) == 0x40){
-                        scores = 0;
                         state = Game;
                 }else if((~PINA & 0xC0) == 0x80){
                         state = Release;
@@ -340,22 +338,10 @@ int Cursor_Tick(int state) {
    return state;
 }
 
-enum NOKIA_States{NOKIA_WAIT, NOKIA_START};
+enum NOKIA_States{NOKIA_WAIT, NOKIA_START, NOKIA_RESET, NOKIA_SCORE};
 int Nokia_Tick(int state){
    switch(state){
                case NOKIA_WAIT:
-                           state = NOKIA_START;
-                           break;
-               case NOKIA_START:
-                           state = NOKIA_START;
-                           break;
-               default:
-                           state = NOKIA_WAIT;
-                           break;
-   }
-            
-   switch(state){
-               case NOKIA_START:
                            nokia_lcd_clear();
                            nokia_lcd_set_cursor(10, 1);
                            nokia_lcd_write_string("THE PACMAN", 1);
@@ -364,9 +350,79 @@ int Nokia_Tick(int state){
                            nokia_lcd_write_string("Press Start Button to play", 1);
 
                            nokia_lcd_render();
+
+                           if((~PINA & 0xC0) == 0x40){
+                                state = NOKIA_START;
+                           }else{
+                                state = NOKIA_WAIT;
+                           }
+                           break;
+               case NOKIA_START:
+                           nokia_lcd_clear();
+                           nokia_lcd_set_cursor(10, 1);
+                           nokia_lcd_write_string("THE PACMAN", 1);
+
+                           nokia_lcd_set_cursor(0, 21);
+                           nokia_lcd_write_string("Here is the game stage :D", 1);
+
+                           nokia_lcd_render();
+           
+                           if((~PINA & 0xC0) == 0x80){
+                                state = NOKIA_RESET;
+                            }else if((~PINA & 0xC0) == 0xC0){
+                                state = NOKIA_SCORE;
+                            }else{
+                                state = NOKIA_START;
+                            }
+                            break;
+               case NOKIA_RESET:
+                           nokia_lcd_clear();
+                           nokia_lcd_set_cursor(10, 1);
+                           nokia_lcd_write_string("THE PACMAN", 1);
+
+                           nokia_lcd_set_cursor(0, 21);
+                           nokia_lcd_write_string("Your score will become 0 if reset", 1);
+                           nokia_lcd_render(); 
+           
+                           if((~PINA & 0xC0) == 0x80){
+                                state = NOKIA_START;
+                            }else{
+                                state = NOKIA_RESET;
+                            }
+                            break;
+               case NOKIA_SCORE:
+                           nokia_lcd_clear();
+                           nokia_lcd_set_cursor(10, 1);
+                           nokia_lcd_write_string("THE PACMAN", 1);
+
+                           nokia_lcd_set_cursor(0, 21);
+                           nokia_lcd_write_string("Check LCD for current score", 1);
+                           nokia_lcd_render(); 
+                           
+                           if((~PINA & 0xC0) == 0x40){
+                                state = NOKIA_START;
+                            }else if((~PINA & 0xC0) == 0x80){
+                                state = NOKIA_RESET;
+                            }else{
+                                state = NOKIA_SCORE;
+                            }
+                            break;
+               default:
+                           state = NOKIA_WAIT;
+                           break;
+   }
+            
+   switch(state){
+               case NOKIA_START:
                            break;
            
                case NOKIA_WAIT:
+                           break;
+           
+               case NOKIA_SCORE:
+                           break;
+           
+               case NOKIA_RESET:
                            break;
                default:
                            break;
@@ -406,7 +462,7 @@ int main(void){
     task3.elapsedTime = task3.period;
     task3.TickFct = &Cursor_Tick;       
      
-    task4.state = NOKIA_START;
+    task4.state = NOKIA_WAIT;
     task4.period = 10;
     task4.elapsedTime = task4.period;
     task4.TickFct = &Nokia_Tick;           
