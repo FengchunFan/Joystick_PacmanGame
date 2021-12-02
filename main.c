@@ -448,26 +448,26 @@ int main(void){
     const char start = -1;
 
     task1.state = start;
-    task1.period = 10;
+    task1.period = 5;
     task1.elapsedTime = task1.period;
     task1.TickFct = &Tick;
 
     task2.state = JS_START;
-    task2.period = 10;
+    task2.period = 5;
     task2.elapsedTime = task2.period;
     task2.TickFct = &JS_Tick;
             
     task3.state = C_START;
-    task3.period = 10;
+    task3.period = 5;
     task3.elapsedTime = task3.period;
     task3.TickFct = &Cursor_Tick;       
      
     task4.state = NOKIA_WAIT;
-    task4.period = 10;
+    task4.period = 5;
     task4.elapsedTime = task4.period;
     task4.TickFct = &Nokia_Tick;           
     
-    TimerSet(10);
+    TimerSet(5);
     TimerOn();
 
     unsigned short i;
@@ -477,7 +477,7 @@ int main(void){
                         tasks[i]->state = tasks[i]->TickFct(tasks[i]->state);
                         tasks[i]->elapsedTime = 0;
                 }
-                tasks[i]->elapsedTime += 10;
+                tasks[i]->elapsedTime += 1;
         }
 
         while(!TimerFlag);
