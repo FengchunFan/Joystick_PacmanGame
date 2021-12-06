@@ -389,7 +389,8 @@ int Nokia_Tick(int state){
                            nokia_lcd_render();
 
                            }
-
+                           break;
+           
                case NOKIA_RESET:
                            nokia_lcd_clear();
                            nokia_lcd_set_cursor(10, 1);
