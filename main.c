@@ -231,7 +231,8 @@ int JS_Tick(int state) {
     return state;
 }
 
-
+unsigned char a = 25;
+unsigned char b = 20;
 enum Cursor_States {C_START, C_CHECK, C_UP, C_DOWN, C_LEFT, C_RIGHT, C_RELEASE};
 
 int Cursor_Tick(int state) {
@@ -314,24 +315,28 @@ int Cursor_Tick(int state) {
                                 break;
                                     
                         case C_UP:
+                                b = b - 5;
                                     LCD_DisplayString(1, "Up");
                                 break;
-                                    
+
                         case C_DOWN:
+                                b = b + 5;
                                     LCD_DisplayString(1, "Down");
                                 break;
-                                    
+
                         case C_RELEASE:
                                 break;
-                                    
+
                         case C_LEFT:
+                                a = a - 5;
                                     LCD_DisplayString(1, "Left");
                                 break;
-                                    
+
                         case C_RIGHT:
+                                a = a + 5;
                                     LCD_DisplayString(1, "Right");
                                 break;
-                                    
+                    
                         default:
                                 break;
             }
@@ -358,23 +363,33 @@ int Nokia_Tick(int state){
                            }
                            break;
                case NOKIA_START:
+                            
+                           nokia_lcd_clear();
+                           nokia_lcd_set_cursor(0,0);
+                           nokia_lcd_write_string("--------------",1);
+
+                           nokia_lcd_set_cursor(0,40);
+                           nokia_lcd_write_string("--------------",1);
+
+                           nokia_lcd_set_cursor(0,1);
+                           nokia_lcd_write_string("|",1);
+
+                           nokia_lcd_set_cursor(a, b);
+                           nokia_lcd_write_string("*", 1);
+
+                           nokia_lcd_render();
+           
+                           if((a==0) || (b==0) || (b == 40) || (a == 70)){
                            nokia_lcd_clear();
                            nokia_lcd_set_cursor(10, 1);
                            nokia_lcd_write_string("THE PACMAN", 1);
 
                            nokia_lcd_set_cursor(0, 21);
-                           nokia_lcd_write_string("Here is the game stage :D", 1);
-
+                           nokia_lcd_write_string("Hit wall!!! You lost!!!", 1);
                            nokia_lcd_render();
-           
-                           if((~PINA & 0xC0) == 0x80){
-                                state = NOKIA_RESET;
-                            }else if((~PINA & 0xC0) == 0xC0){
-                                state = NOKIA_SCORE;
-                            }else{
-                                state = NOKIA_START;
-                            }
-                            break;
+
+                           }
+
                case NOKIA_RESET:
                            nokia_lcd_clear();
                            nokia_lcd_set_cursor(10, 1);
