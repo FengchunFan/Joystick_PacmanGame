@@ -25,7 +25,7 @@ unsigned short readADC(uint8_t ch) {
 }
 
 enum States {Start, Init, Game, Release, Score, Win};
-unsigned char scores = 15;
+unsigned char scores = 0;
 
 int Tick(int state){
 switch(state){
@@ -100,7 +100,7 @@ switch(state){
                 }
                 break;
         case Win:
-                LCD_DisplayString(1, "You win, click anything to reset");
+                LCD_DisplayString(1, "You Win Wohoooo!    ");
                 if((~PINA & 0xC0) == 0x40){
                         state = Init;
                 }else if((~PINA & 0xC0) == 0x80){
@@ -457,7 +457,7 @@ int Nokia_Tick(int state){
                            nokia_lcd_render();
 
                            if((a == 15)&&(b == 25)){
-                          // scores = scores + 5;
+                           scores = scores + 5;
                            checked_1 = 0x01;
                            }
 
@@ -467,22 +467,22 @@ int Nokia_Tick(int state){
                            }
 
                            if((a == 70)&&(b == 5)){
-                           //scores = scores + 5;
+                           scores = scores + 5;
                            checked_3 = 0x01;
                            }
 
                            if((a == 45)&&(b == 35)){
-                           //scores = scores + 5;
+                           scores = scores + 5;
                            checked_4 = 0x01;
                            }
 
                            if((a == 55)&&(b == 20)){
-                           //scores = scores - 10;
+                           scores = scores - 10;
                            checked_5 = 0x01;
                            }
 
                            if((a == 25)&&(b == 30)){
-                           //scores = scores + 10;
+                           scores = scores + 10;
                            checked_6 = 0x01;
                            }
 
