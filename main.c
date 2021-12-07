@@ -152,13 +152,13 @@ int JS_Tick(int state) {
                         state = JS_WAIT;
                         break;
         case JS_WAIT:
-            if (Y >= 800) {
+            if (Y >= 750) {
                         state = JS_RIGHT;
-            } else if (Y <= 80) {
+            } else if (Y <= 75) {
                         state = JS_LEFT;
-            } else if (X <= 80) {
+            } else if (X <= 75) {
                         state = JS_UP;
-            } else if (X >= 800) {
+            } else if (X >= 750) {
                         state = JS_DOWN;
             } else {
                         state = JS_WAIT;
@@ -166,7 +166,7 @@ int JS_Tick(int state) {
             break;
 
         case JS_RIGHT:
-            if (Y >= 800) {
+            if (Y >= 750) {
                         state = JS_RIGHT;
             } else {
                         state = JS_WAIT;
@@ -174,14 +174,14 @@ int JS_Tick(int state) {
             break;
 
         case JS_LEFT:
-            if (Y <= 80) {
+            if (Y <= 75) {
                         state = JS_LEFT;
             } else {
                         state = JS_WAIT;
             }
             break;
         case JS_UP:
-            if (X <= 80) {
+            if (X <= 75) {
                         state = JS_UP;
             } else {
                         state = JS_WAIT;
@@ -189,7 +189,7 @@ int JS_Tick(int state) {
             break;
 
         case JS_DOWN:
-            if (X >= 800) {
+            if (X >= 750) {
                         state = JS_DOWN;
             } else {
                         state = JS_WAIT;
@@ -600,7 +600,7 @@ int main(void){
     task2.elapsedTime = task2.period;
     task2.TickFct = &JS_Tick;
 
-      task3.state = C_START;
+    task3.state = C_START;
     task3.period = 5;
     task3.elapsedTime = task3.period;
     task3.TickFct = &Cursor_Tick;
