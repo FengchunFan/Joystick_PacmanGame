@@ -7,7 +7,6 @@
 #include "simAVRHeader.h"
 #include <util/delay.h>
 #include "nokia5110.h"
-//#include "pwm.h"
 #endif
 
 void ADC_init() {
@@ -49,6 +48,8 @@ switch(state){
                         state = Release;
                 }else if((~PINA & 0xC0) == 0xC0){
                         state = Score;
+                }else if ((~PIND & 0x10) == 0x10){ //PIR detected
+                        state = Release;
                 }else{
                         state = Game;
                 }
@@ -500,6 +501,8 @@ int Nokia_Tick(int state){
                                 state = NOKIA_RESET;
                             }else if ((~PINA & 0xC0) == 0xC0){
                                 state = NOKIA_SCORE;
+                            }else if ((~PIND & 0x10) == 0x10){ //PIR detected
+                                state = NOKIA_RESET;
                             }else{
                                 state = NOKIA_START;
                             }
@@ -575,7 +578,7 @@ int main(void){
     DDRA = 0x00; PORTA = 0xFF;
     DDRB = 0xFF; PORTB = 0x00;
     DDRC = 0xFF; PORTC = 0x00;
-    DDRD = 0xFF; PORTD = 0x00;
+    DDRD = 0x00; PORTD = 0x10;
 
     ADC_init();
     nokia_lcd_init();
