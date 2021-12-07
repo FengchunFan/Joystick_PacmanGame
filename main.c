@@ -25,7 +25,7 @@ unsigned short readADC(uint8_t ch) {
 }
 
 enum States {Start, Init, Game, Release, Score, Win};
-unsigned char scores = 10;
+unsigned char scores = 0;
 
 int Tick(int state){
 switch(state){
@@ -100,7 +100,7 @@ switch(state){
                 }
                 break;
         case Win:
-                LCD_DisplayString(1, "You win, click anything to reset");
+                LCD_DisplayString(1, "You Win Wohoooo!    ");
                 if((~PINA & 0xC0) == 0x40){
                         state = Init;
                 }else if((~PINA & 0xC0) == 0x80){
@@ -151,13 +151,13 @@ int JS_Tick(int state) {
                         state = JS_WAIT;
                         break;
         case JS_WAIT:
-            if (Y >= 800) {
+            if (Y >= 750) {
                         state = JS_RIGHT;
-            } else if (Y <= 80) {
+            } else if (Y <= 75) {
                         state = JS_LEFT;
-            } else if (X <= 80) {
+            } else if (X <= 75) {
                         state = JS_UP;
-            } else if (X >= 800) {
+            } else if (X >= 750) {
                         state = JS_DOWN;
             } else {
                         state = JS_WAIT;
@@ -165,7 +165,7 @@ int JS_Tick(int state) {
             break;
 
         case JS_RIGHT:
-            if (Y >= 800) {
+            if (Y >= 750) {
                         state = JS_RIGHT;
             } else {
                         state = JS_WAIT;
@@ -173,7 +173,7 @@ int JS_Tick(int state) {
             break;
 
         case JS_LEFT:
-            if (Y <= 80) {
+            if (Y <= 75) {
                         state = JS_LEFT;
             } else {
                         state = JS_WAIT;
@@ -181,7 +181,7 @@ int JS_Tick(int state) {
             break;
 
         case JS_UP:
-            if (X <= 80) {
+            if (X <= 750) {
                         state = JS_UP;
             } else {
                         state = JS_WAIT;
@@ -189,7 +189,7 @@ int JS_Tick(int state) {
             break;
 
         case JS_DOWN:
-            if (X >= 800) {
+            if (X >= 750) {
                         state = JS_DOWN;
             } else {
                         state = JS_WAIT;
