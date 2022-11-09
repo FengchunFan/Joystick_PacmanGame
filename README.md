@@ -1,6 +1,4 @@
-# CS120B-FinalProject
-
-Pacman Game
+# CS120B-FinalProject: Pacman Game
 
 Full Demo link: https://www.youtube.com/watch?v=EigdK7Y4cu4
 
