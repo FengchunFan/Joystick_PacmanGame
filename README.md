@@ -1,4 +1,4 @@
-# CS120B-FinalProject: Pacman Game
+# Joystick Pacman Game
 
 Full Demo link: https://www.youtube.com/watch?v=EigdK7Y4cu4
 
